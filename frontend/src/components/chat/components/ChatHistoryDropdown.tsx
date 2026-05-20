@@ -57,6 +57,8 @@ export function ChatHistoryDropdown({
   const containerRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const popoverRef = useRef<HTMLDivElement | null>(null);
+  const visibleChatCount = chats.filter(shouldShowChatInHistory).length;
+  const shouldShowLoadingState = loadingChats && visibleChatCount === 0;
 
   const updatePopoverPosition = useCallback(() => {
     const trigger = triggerRef.current;
@@ -219,7 +221,7 @@ export function ChatHistoryDropdown({
                         ? "bg-neutral-900 text-white dark:bg-neutral-100 dark:text-neutral-900"
                         : "bg-neutral-100 text-neutral-500 dark:bg-neutral-800 dark:text-neutral-400"
                     }`}>
-                      {chats.filter(shouldShowChatInHistory).length}
+                      {visibleChatCount}
                     </span>
                   )}
                   {!showAppChats ? (
@@ -253,13 +255,23 @@ export function ChatHistoryDropdown({
                 </button>
               </div>
               <div className="min-h-0 flex-1 overflow-y-auto px-2 py-2">
+                {!showAppChats && isRefreshing && visibleChatCount > 0 ? (
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="mb-2 flex items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-xs font-medium text-neutral-500 dark:border-neutral-700 dark:bg-neutral-800/80 dark:text-neutral-400"
+                  >
+                    <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+                    Refreshing chats...
+                  </div>
+                ) : null}
                 <ChatList
                   chats={chats}
                   appChats={appChats}
                   showAppChats={showAppChats}
                   activeChatId={activeChatId}
                   activeAppChatId={activeAppChatId}
-                  loading={loadingChats || (!showAppChats && isRefreshing)}
+                  loading={shouldShowLoadingState}
                   onSelectChat={handleSelectChat}
                   onSelectAppChat={handleSelectAppChat}
                 />
