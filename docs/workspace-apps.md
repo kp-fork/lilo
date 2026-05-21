@@ -1,6 +1,11 @@
 # Workspace apps
 
-The most distinctive thing about Lilo: **the agent builds its own apps**.
+The most distinctive thing about Lilo: **the agent builds its own apps**. Each
+app lives as a directory of HTML and assets under `$LILO_WORKSPACE_DIR/`, runs
+in a sandboxed iframe, and can read/write its own files, open chats, and make
+HTTP calls through a built-in `window.lilo` API.
+
+Ask the agent *"build me a habit tracker"* and it scaffolds one. No build step.
 
 A workspace app is just a directory under `$LILO_WORKSPACE_DIR/`:
 
@@ -25,8 +30,8 @@ default Desktop's "Chat with Lilo" prompt box
 - **Make HTTP requests** through the backend's proxy, so they can talk to
 external APIs without CORS pain
 
-Just ask the agent *"build me a habit tracker"* and it'll scaffold the app
-directory, write HTML + JS, and open it in the viewer. No build step.
+The agent writes HTML and JavaScript directly into the app directory and opens
+it in the viewer.
 
 ## Element picker
 

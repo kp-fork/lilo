@@ -41,7 +41,7 @@ Telegram is the easiest way to use Lilo, but it works wherever you do: WhatsApp,
 | <img src="./docs/readme-assets/use-case-game.png" alt="Telegram chat asking Lilo for game updates and summaries" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-cafe.png" alt="Telegram chat asking Lilo for a laptop-friendly cafe nearby" width="300" height="242" /> |
 | Get summaries and live score updates. | Find laptop-friendly cafes nearby. |
 
-[Quick start](#quick-start) · [Telegram setup](#telegram-setup) · [Configuration](./docs/configuration.md) · [Workspace apps](#workspace-apps) · [External messaging](./docs/external-messaging.md) · [Development](./docs/development.md) · [Contributing](./docs/contributing.md) · [Deployment](./docs/deployment.md)
+[Quick start](#quick-start) · [Telegram setup](#telegram-setup) · [Configuration](./docs/configuration.md) · [Workspace apps](./docs/workspace-apps.md) · [Mobile app](./docs/mobile-app.md) · [External messaging](./docs/external-messaging.md) · [Development](./docs/development.md) · [Contributing](./docs/contributing.md) · [Deployment](./docs/deployment.md)
 
 
 ---
@@ -102,19 +102,6 @@ Desktop, TODO list, Calories tracker, and a handful of other apps to play with.
 
 ---
 
-## Workspace apps
-
-The most distinctive thing about Lilo: **the agent builds its own apps**. Each
-app lives as a directory of HTML + assets under `$LILO_WORKSPACE_DIR/`, runs
-in a sandboxed iframe, and can read/write its own files, open chats, and make
-HTTP calls through a built-in `window.lilo` API. Ask the agent *"build me a
-habit tracker"* and it scaffolds one — no build step.
-
-**→ [Full guide: docs/workspace-apps.md](./docs/workspace-apps.md)** (directory
-layout, the `window.lilo` API surface, and the in-viewer element picker).
-
----
-
 ## Telegram setup
 
 ```bash
@@ -144,21 +131,6 @@ For email, WhatsApp, and native app link setup, see
 
 ---
 
-## Mobile app
-
-Lilo works well as an iPhone home-screen app. It still needs your Lilo backend
-to be running; this is an app-like Safari wrapper, not an offline native app.
-
-1. Deploy Lilo somewhere your phone can reach, ideally over HTTPS. Railway's
-   generated public domain works well.
-2. On your iPhone, open the Lilo URL in Safari. Use Safari specifically; other
-   iOS browsers do not expose the same Add to Home Screen flow.
-3. Log in if you configured `LILO_AUTH_PASSWORD`.
-4. Tap the Share button, then tap **Add to Home Screen**.
-5. Name it `Lilo`, tap **Add**, and launch it from your home screen.
-
----
-
 ## Security
 
 Lilo is built for a **single, self-hosted user** — not multi-tenant SaaS.
@@ -181,6 +153,8 @@ Lilo is built for a **single, self-hosted user** — not multi-tenant SaaS.
 ## More docs
 
 - [Configuration](./docs/configuration.md)
+- [Workspace apps](./docs/workspace-apps.md)
+- [Mobile app](./docs/mobile-app.md)
 - [External messaging](./docs/external-messaging.md)
 - [Development](./docs/development.md)
 - [Contributing](./docs/contributing.md)
