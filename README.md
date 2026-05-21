@@ -41,7 +41,7 @@ Telegram is the easiest way to use Lilo, but it works wherever you do: WhatsApp,
 | <img src="./docs/readme-assets/use-case-game.png" alt="Telegram chat asking Lilo for game updates and summaries" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-cafe.png" alt="Telegram chat asking Lilo for a laptop-friendly cafe nearby" width="300" height="242" /> |
 | Get summaries and live score updates. | Find laptop-friendly cafes nearby. |
 
-[Features](#features) · [Quick start](#quick-start) · [Configuration](#configuration) · [Workspace apps](#workspace-apps) · [External messaging](#external-messaging) · [Mobile app](#mobile-app) · [Security](#security) · [Deployment](#deployment)
+[Quick start](#quick-start) · [Telegram setup](#telegram-setup) · [Configuration](./docs/configuration.md) · [Workspace apps](#workspace-apps) · [External messaging](./docs/external-messaging.md) · [Development](./docs/development.md) · [Contributing](./docs/contributing.md) · [Deployment](./docs/deployment.md)
 
 
 ---
@@ -85,7 +85,7 @@ OPENROUTER_API_KEY=sk-or-...            # enables OpenRouter-routed models
 LILO_AUTH_PASSWORD=choose-a-strong-password   # locks down the whole app
 ```
 
-See [Configuration](#configuration) for the full list.
+See [Configuration](./docs/configuration.md) for the full list.
 
 ### 3. Run
 
@@ -96,109 +96,9 @@ pnpm run dev   # backend (http://localhost:8787) + frontend (http://localhost:58
 Open `http://localhost:5800`. If you set `LILO_AUTH_PASSWORD`, you'll get a
 login screen on first visit.
 
-Your workspace should be auto-bootstrapped from the bundled  
-`[workspace-template/](./workspace-template)`, so you'll immediately have a  
+Your workspace should be auto-bootstrapped from the bundled
+[workspace-template/](./workspace-template), so you'll immediately have a
 Desktop, TODO list, Calories tracker, and a handful of other apps to play with.
-
----
-
-## Configuration
-
-All env vars are read from (in order of precedence):
-
-1. Shell-exported variables
-2. `.env.local` at the repo root
-3. `.env` at the repo root
-
-### Core
-
-
-| Variable                   | Required | Default              | Description                                                                                                 |
-| -------------------------- | -------- | -------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `LILO_WORKSPACE_DIR`       | ✅        | —                    | Directory the agent works in. Auto-bootstrapped from `workspace-template/` if empty.                        |
-| `LILO_SESSIONS_DIR`        | ✅        | —                    | Where persistent Pi chat sessions (`chats/`) and app sessions (`apps/`) are stored.                         |
-| `LILO_AUTH_PASSWORD`       | —        | unset (open)         | Single-password login for the web app + all APIs + WebSockets. Leave unset for a fully open local instance. |
-| `LILO_AUTH_SESSION_SECRET` | —        | `LILO_AUTH_PASSWORD` | HMAC secret for the session cookie. Rotate to invalidate all existing sessions.                             |
-| `PORT`                     | —        | `8787`               | Backend HTTP port.                                                                                          |
-
-
-### Chat models
-
-At least one is required to actually use Lilo.
-
-
-| Variable             | Enables                                                                              |
-| -------------------- | ------------------------------------------------------------------------------------ |
-| `OPENAI_API_KEY`     | GPT 5.5, GPT 5.4 Mini                                                                |
-| `ANTHROPIC_API_KEY`  | Claude Opus 4.7                                                                      |
-| `OPENROUTER_API_KEY` | OpenRouter routing for GPT 5.5, GPT 5.4 Mini, Claude Opus 4.7, and Kimi K2.6          |
-
-If `OPENROUTER_API_KEY` is set, Lilo can route supported models through
-OpenRouter. Native provider keys take priority: for example, if
-`OPENAI_API_KEY` is set, GPT models use OpenAI directly; if it is missing but
-`OPENROUTER_API_KEY` is set, GPT models route through OpenRouter instead.
-
-Limit the chat dropdown/API to specific models with a comma-separated allowlist.
-
-```bash
-LILO_CHAT_MODEL_ALLOWLIST=gpt-5.5,gpt-5.4-mini
-```
-
-Supported allowlist IDs: `claude-opus-4-7`, `gpt-5.5`,
-`gpt-5.4-mini`, and `moonshotai/kimi-k2.6`.
-
-### Agent tools (optional)
-
-Each one unlocks a corresponding agent tool. Missing keys just disable the
-tool — the agent keeps working without them.
-
-
-| Variable                 | Tool                                                                      |
-| ------------------------ | ------------------------------------------------------------------------- |
-| `REPLICATE_API_KEY`      | `generate_images`, `remove_background`                                    |
-| `LILO_IMAGE_MODEL`       | Image model — `nano-banana` (default), `nano-banana-2`, `flux-2-klein-4b` |
-| `FIRECRAWL_API_KEY`      | `web_search`, `web_scrape`                                                |
-| `BROWSERBASE_API_KEY`    | `browser_automate`                                                        |
-| `BROWSERBASE_PROJECT_ID` | Optional project id; usually inferred                                     |
-
-
-### Git sync (optional)
-
-Point `LILO_WORKSPACE_GIT_URL` at a git repo to make `LILO_WORKSPACE_DIR`
-git-backed on boot. If the workspace is not already a git repo, Lilo initializes
-one and sets `origin` to this URL; if it is already a repo, Lilo keeps `origin`
-in sync with this value. This keeps your workspace (apps, data, and memories)
-versioned and portable across hosts. The frontend shows a manual "Sync" button
-that runs pull/rebase and push; it expects workspace changes to be committed
-first. Hide it with `VITE_ENABLE_WORKSPACE_SYNC=false` when you aren't using this
-flow.
-
-
-| Variable                     | Scope    | Description                                                   |
-| ---------------------------- | -------- | ------------------------------------------------------------- |
-| `LILO_WORKSPACE_GIT_URL`     | backend  | Git remote to configure as `origin` for `LILO_WORKSPACE_DIR`. |
-| `VITE_ENABLE_WORKSPACE_SYNC` | frontend | Show the Sync button in the UI. Defaults to `true`.           |
-
-
-### Frontend observability (optional)
-
-Set at build time — Vite only inlines `VITE_*` vars.
-
-
-| Variable                                          | Description                          |
-| ------------------------------------------------- | ------------------------------------ |
-| `VITE_ENABLE_SENTRY` / `VITE_SENTRY_DSN`          | Opt in to Sentry for browser errors. |
-| `VITE_ENABLE_LOGROCKET` / `VITE_LOGROCKET_APP_ID` | Opt in to LogRocket session replay.  |
-
-
-### Backend observability (optional)
-
-
-| Variable        | Default | Description                          |
-| --------------- | ------- | ------------------------------------ |
-| `ENABLE_SENTRY` | `false` | Opt in to Sentry for backend errors. |
-| `SENTRY_DSN`    | unset   | Backend Sentry DSN.                  |
-
 
 ---
 
@@ -215,67 +115,7 @@ layout, the `window.lilo` API surface, and the in-viewer element picker).
 
 ---
 
-## External messaging
-
-Lilo can be an email/SMS/Telegram chatbot. Each channel is an opt-in plugin —
-leave its env vars unset and it's disabled.
-
-### Native app links (optional)
-
-Messaging channels can include buttons that open workspace apps or files in the
-native iOS app. For multi-workspace/self-hosted installs, use the separate
-minimal broker service in [`link-broker/`](./link-broker/) as the single
-Universal Link domain for the app.
-
-Set these on each Lilo workspace backend that should generate native app links:
-
-| Variable               | Description                                                                                                  |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `LILO_PUBLIC_APP_URL`  | Public HTTPS origin for this Lilo workspace. Used to tell the native app which workspace should handle a link. |
-| `LILO_LINK_BROKER_URL` | Public HTTPS origin of the link broker. When set, workspace links in Telegram replies are sent through it.     |
-
-Set this on the link broker service, not on every workspace backend:
-
-| Variable                          | Description                                                                                   |
-| --------------------------------- | --------------------------------------------------------------------------------------------- |
-| `LILO_IOS_UNIVERSAL_LINK_APP_IDS` | Comma-separated Apple app IDs in `TEAM_ID.bundle.identifier` format to advertise in the AASA. |
-
-The iOS app entitlement should contain the broker domain, for example
-`applinks:<broker-domain>`. Only set `LILO_IOS_UNIVERSAL_LINK_APP_IDS` on the
-workspace backend if you intentionally want that backend to serve its own
-`apple-app-site-association` file instead of using the broker.
-
-### Email (Resend)
-
-```bash
-RESEND_API_KEY=re_...
-RESEND_WEBHOOK_SECRET=whsec_...
-LILO_EMAIL_AGENT_ADDRESS=hi@yourdomain.com        # your bot's inbound address
-LILO_EMAIL_REPLY_FROM="Lilo <lilo@yourdomain.com>"
-LILO_EMAIL_ALLOWED_SENDERS=you@yours.com,partner@theirs.com   # allowlist
-LILO_PUBLIC_APP_URL=https://your-lilo.example.com # optional; adds chat permalinks and native app links
-```
-
-1. Set up a receiving domain in Resend.
-2. Create a webhook pointing to `https://your-lilo/api/inbound-email` with the
-  `email.received` event.
-3. Send Lilo an email; it replies in-thread.
-
-Replies set `Reply-To: LILO_EMAIL_AGENT_ADDRESS`, so the recipient's reply round-trips
-back into the same inbox.
-
-### WhatsApp (Twilio)
-
-```bash
-TWILIO_ACCOUNT_SID=AC...
-TWILIO_AUTH_TOKEN=...
-LILO_WHATSAPP_AGENT_NUMBER=whatsapp:+15555550123
-LILO_WHATSAPP_ALLOWED_SENDERS=whatsapp:+15555550124
-```
-
-Point a Twilio WhatsApp webhook at `https://your-lilo/api/inbound-whatsapp`.
-
-### Telegram
+## Telegram setup
 
 ```bash
 TELEGRAM_BOT_TOKEN=123456:ABC-...
@@ -298,6 +138,9 @@ a Telegram ID helper bot such as `@userinfobot`.
 
 > Each contact gets their own persistent chat, so the agent remembers your
 > conversation across messages.
+
+For email, WhatsApp, and native app link setup, see
+[External messaging](./docs/external-messaging.md).
 
 ---
 
@@ -335,49 +178,13 @@ Lilo is built for a **single, self-hosted user** — not multi-tenant SaaS.
 
 ---
 
-## Deployment
+## More docs
 
-### Railway (recommended)
-
-```bash
-./scripts/setup-railway.sh
-```
-
-The interactive setup script will:
-
-- Link or create a Railway project named `lilo`
-- Prompt for the GitHub repo to connect
-- Set core env vars
-- Mount a persistent volume at `/data` for `LILO_WORKSPACE_DIR` +
-`LILO_SESSIONS_DIR`
-- Generate a public domain on port `8080`
-
-You still configure the optional message-channel keys (Resend / Twilio /  
-Telegram / Firecrawl / etc.) from the Railway dashboard.
-
----
-
-## Development
-
-```bash
-pnpm run dev            # run backend + frontend + live typechecks in parallel
-pnpm run dev:backend    # port 8787
-pnpm run dev:frontend   # port 5800
-pnpm run dev:template   # like `dev` but with LILO_WORKSPACE_DIR pointed at the bundled template (useful for trying out the default apps without polluting your own workspace)
-pnpm run build          # build both packages
-pnpm run lint           # oxlint across the repo
-pnpm run format         # oxfmt across the repo
-```
-
----
-
-## Contributing
-
-This is an open source project. Issues and PRs welcome — keep components small
-and one-file-per-concern (see [AGENTS.md](./AGENTS.md)).
-
-Join us on **[Discord](https://discord.gg/RAKmnS2G)** to ask questions, share
-workspace apps you've built, or follow development.
+- [Configuration](./docs/configuration.md)
+- [External messaging](./docs/external-messaging.md)
+- [Development](./docs/development.md)
+- [Contributing](./docs/contributing.md)
+- [Deployment](./docs/deployment.md)
 
 ## License
 
