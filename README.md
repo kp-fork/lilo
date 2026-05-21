@@ -22,7 +22,7 @@ Here are a few things Lilo can do:
 - Collect a Uber receipt, and pull it up later to file for a reimbursement at work.
 - Schedule a meeting with Jess next week, ask for suggestions on meeting location, and next week, remind you when it’s time to leave for the meeting.
 
-Telegram is the easiest way to use Lilo, but it works wherever you do: WhatsApp, web, desktop, mobile, or email.
+Telegram is the easiest way to use Lilo, but it also works wherever you do: WhatsApp, web, desktop, mobile, or email. There's a companion mobile and desktop app for when you want to work more visually, like move things around on your TODO list.
 
 ## What you can ask Lilo
 
