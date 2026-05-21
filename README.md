@@ -41,9 +41,6 @@ Telegram is the easiest way to use Lilo, but it also works wherever you do: What
 | <img src="./docs/readme-assets/use-case-game.png" alt="Telegram chat asking Lilo for game updates and summaries" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-cafe.png" alt="Telegram chat asking Lilo for a laptop-friendly cafe nearby" width="300" height="242" /> |
 | Get summaries and live score updates. | Find laptop-friendly cafes nearby. |
 
-[Quick start](#quick-start) · [Telegram setup](#telegram-setup) · [Configuration](./docs/configuration.md) · [Workspace apps](./docs/workspace-apps.md) · [Mobile app](./docs/mobile-app.md) · [External messaging](./docs/external-messaging.md) · [Development](./docs/development.md) · [Contributing](./docs/contributing.md) · [Deployment](./docs/deployment.md)
-
-
 ---
 
 > [!WARNING]
