@@ -28,17 +28,17 @@ Telegram is the easiest way to use Lilo, but it also works wherever you do: What
 
 | Find kid-friendly dinner | Track meals |
 | --- | --- |
-| <img src="./docs/readme-assets/use-case-restaurant.png" alt="Telegram chat asking Lilo for a kid-friendly restaurant nearby" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-calories.png" alt="Telegram chat asking Lilo to track food and calories" width="300" height="242" /> |
+| <img src="./docs/readme-assets/use-case-restaurant-real.png" alt="Telegram chat asking Lilo for a kid-friendly restaurant nearby" width="220" /> | <img src="./docs/readme-assets/use-case-calories-real.png" alt="Telegram chat asking Lilo to track food and calories" width="220" /> |
 | Ask nearby and get a practical recommendation. | Send food and keep calories up to date. |
 
 | Pull up return info | Manage TODOs |
 | --- | --- |
-| <img src="./docs/readme-assets/use-case-return.png" alt="Telegram chat asking Lilo to find a return code at the store" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-todo.png" alt="Telegram chat asking Lilo to pause supplements and add a TODO" width="300" height="242" /> |
+| <img src="./docs/readme-assets/use-case-return-real.png" alt="Telegram chat asking Lilo to find a return code at the store" width="220" /> | <img src="./docs/readme-assets/use-case-todo-real.png" alt="Telegram chat asking Lilo to pause supplements and add a TODO" width="220" /> |
 | Pull up return codes, receipts, and files. | Turn voice notes into durable TODOs. |
 
 | Follow a game | Find a work spot |
 | --- | --- |
-| <img src="./docs/readme-assets/use-case-game.png" alt="Telegram chat asking Lilo for game updates and summaries" width="300" height="242" /> | <img src="./docs/readme-assets/use-case-cafe.png" alt="Telegram chat asking Lilo for a laptop-friendly cafe nearby" width="300" height="242" /> |
+| <img src="./docs/readme-assets/use-case-game-real.png" alt="Telegram chat asking Lilo for game updates and summaries" width="220" /> | <img src="./docs/readme-assets/use-case-cafe-real.png" alt="Telegram chat asking Lilo for a laptop-friendly cafe nearby" width="220" /> |
 | Get summaries and live score updates. | Find laptop-friendly cafes nearby. |
 
 ---
